@@ -11,10 +11,6 @@ from pathlib import Path
 
 import streamlit as st
 
-
-# ============================================================
-# CONFIGURAÇÃO E ESTILO
-# ============================================================
 st.set_page_config(
     page_title="Bitcoffee | PIT-II",
     page_icon="☕",
@@ -85,10 +81,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-
-# ============================================================
-# DADOS E ESTADO DA APLICAÇÃO
-# ============================================================
 PRODUTOS = [
     {
         "id": 1,
@@ -311,11 +303,7 @@ def calcular_subtotal() -> float:
         item["produto"]["preco"] * item["quantidade"]
         for item in st.session_state.carrinho
     )
-
-
-# ============================================================
-# TELA 201 — PRINCIPAL
-# ============================================================
+    
 if st.session_state.tela_atual == TELA_INICIAL:
     render_header()
     termo = st.text_input(
@@ -345,11 +333,7 @@ if st.session_state.tela_atual == TELA_INICIAL:
                 if st.button("Ver detalhes", key=f"detalhe_{produto['id']}"):
                     st.session_state.produto_selecionado = produto
                     navegar_para("TELA206 - DESCRIÇÃO")
-
-
-# ============================================================
-# TELA 206 — DESCRIÇÃO
-# ============================================================
+                    
 elif st.session_state.tela_atual == "TELA206 - DESCRIÇÃO":
     if st.button("← Menu principal", key="menu_principal_descricao"):
         navegar_para(TELA_INICIAL)
@@ -369,11 +353,7 @@ elif st.session_state.tela_atual == "TELA206 - DESCRIÇÃO":
         st.write(f"### {formatar_moeda(produto['preco'])}")
         if st.button("Adicionar ao carrinho", key="adicionar_detalhes"):
             adicionar_ao_carrinho(produto)
-
-
-# ============================================================
-# TELA 203 — PEDIDO
-# ============================================================
+            
 elif st.session_state.tela_atual == "TELA203 - PEDIDO":
     if st.button("← Menu principal", key="menu_principal_pedido"):
         navegar_para(TELA_INICIAL)
@@ -414,11 +394,7 @@ elif st.session_state.tela_atual == "TELA203 - PEDIDO":
         if st.button("Finalizar pedido", key="finalizar_pedido"):
             st.session_state.subtotal_compra = subtotal
             navegar_para("TELA202 - PAGAMENTO")
-
-
-# ============================================================
-# TELA 202 — PAGAMENTO
-# ============================================================
+            
 elif st.session_state.tela_atual == "TELA202 - PAGAMENTO":
     if st.button("← Menu principal", key="menu_principal_pagamento"):
         navegar_para(TELA_INICIAL)
@@ -490,9 +466,6 @@ elif st.session_state.tela_atual == "TELA202 - PAGAMENTO":
         else:
             navegar_para("TELA207 - CARTÃO")
 
-# ============================================================
-# TELA 205 — PIX
-# ============================================================
 elif st.session_state.tela_atual == "TELA205 - PIX":
     if st.button("← Menu principal", key="menu_principal_pix"):
         navegar_para(TELA_INICIAL)
@@ -505,11 +478,7 @@ elif st.session_state.tela_atual == "TELA205 - PIX":
         st.toast("Código PIX demonstrativo copiado.")
     if st.button("Cancelar", key="cancelar_pix"):
         navegar_para(TELA_INICIAL)
-
-
-# ============================================================
-# TELA 207 — CARTÃO
-# ============================================================
+        
 elif st.session_state.tela_atual == "TELA207 - CARTÃO":
     if st.button("← Menu principal", key="menu_principal_cartao"):
         navegar_para(TELA_INICIAL)
@@ -529,11 +498,7 @@ elif st.session_state.tela_atual == "TELA207 - CARTÃO":
                 navegar_para(TELA_INICIAL)
     with coluna_info:
         st.info("Bandeiras aceitas:\n\n- Visa\n- Mastercard\n- Elo")
-
-
-# ============================================================
-# TELA 101 — LOGIN
-# ============================================================
+        
 elif st.session_state.tela_atual == "TELA101 - LOGIN":
     if st.button("← Menu principal", key="menu_principal_login"):
         navegar_para(TELA_INICIAL)
@@ -567,9 +532,6 @@ elif st.session_state.tela_atual == "TELA101 - LOGIN":
     if st.button("Esqueceu a senha?", key="esqueceu_senha"):
         navegar_para("TELA103 - RECUPERAÇÃO DE CONTA")
 
-# ============================================================
-# TELA 102 — CADASTRO
-# ============================================================
 elif st.session_state.tela_atual == "TELA102 - CADASTRO":
     if st.button("← Menu principal", key="menu_principal_cadastro"):
         navegar_para(TELA_INICIAL)
@@ -619,9 +581,6 @@ elif st.session_state.tela_atual == "TELA102 - CADASTRO":
         else:
             st.error("Este e-mail já está em uso.")
 
-# ============================================================
-# TELA 103 — RECUPERAÇÃO DE CONTA
-# ============================================================
 elif st.session_state.tela_atual == "TELA103 - RECUPERAÇÃO DE CONTA":
     if st.button("← Menu principal", key="menu_principal_recuperacao"):
         navegar_para(TELA_INICIAL)
@@ -648,9 +607,6 @@ elif st.session_state.tela_atual == "TELA103 - RECUPERAÇÃO DE CONTA":
     if st.button("Voltar para login", key="voltar_login_recuperacao"):
         navegar_para("TELA101 - LOGIN")
 
-# ============================================================
-# TELA 104 — TERMOS DE USO E LGPD
-# ============================================================
 elif st.session_state.tela_atual == "TELA104 - TERMOS DE USO E LGPD":
     if st.button("← Menu principal", key="menu_principal_termos"):
         navegar_para(TELA_INICIAL)
@@ -664,11 +620,7 @@ elif st.session_state.tela_atual == "TELA104 - TERMOS DE USO E LGPD":
     )
     if st.button("Voltar ao cadastro", key="voltar_cadastro_termos"):
         navegar_para("TELA102 - CADASTRO")
-
-
-# ============================================================
-# TELA 301 — ADMINISTRAÇÃO
-# ============================================================
+        
 elif st.session_state.tela_atual == "TELA301 - ADMINISTRAÇÃO":
     if st.button("← Menu principal", key="menu_principal_admin"):
         navegar_para(TELA_INICIAL)
@@ -690,10 +642,6 @@ elif st.session_state.tela_atual == "TELA301 - ADMINISTRAÇÃO":
         st.session_state.usuario_logado = None
         navegar_para(TELA_INICIAL)
 
-
-# ============================================================
-# TELA 302 — ESTOQUE
-# ============================================================
 elif st.session_state.tela_atual == "TELA302 - ESTOQUE":
     if st.button("← Menu principal", key="menu_principal_estoque"):
         navegar_para(TELA_INICIAL)
