@@ -122,17 +122,30 @@ st.markdown(
     div[data-baseweb="input"],
     div[data-baseweb="textarea"],
     div[data-baseweb="select"] > div {
-        background-color: #ffffff !important;
-        border-color: var(--line) !important;
+        background-color: #ead9c5 !important;
+        border: 1px solid #b99a78 !important;
         border-radius: 12px !important;
-        box-shadow: 0 4px 14px rgba(46, 26, 16, 0.04) !important;
+        box-shadow: inset 0 1px 2px rgba(58, 34, 20, 0.08), 0 4px 14px rgba(46, 26, 16, 0.05) !important;
+    }
+
+    div[data-baseweb="input"]:focus-within,
+    div[data-baseweb="textarea"]:focus-within,
+    div[data-baseweb="select"] > div:focus-within {
+        border-color: #8f462d !important;
+        box-shadow: 0 0 0 3px rgba(166, 67, 38, 0.18) !important;
     }
 
     div[data-baseweb="input"] input,
     div[data-baseweb="textarea"] textarea,
     div[data-baseweb="select"] > div {
-        color: #1a1512 !important;
+        color: #1f160f !important;
         background-color: transparent !important;
+    }
+
+    div[data-baseweb="input"] input::placeholder,
+    div[data-baseweb="textarea"] textarea::placeholder {
+        color: #705c4e !important;
+        opacity: 1 !important;
     }
 
     div[data-testid="stTextInput"] input,
@@ -459,6 +472,12 @@ PRODUTOS = [
 ]
 
 TELA_INICIAL = "TELA201 - PRINCIPAL"
+
+UFS_BRASIL = (
+    "Selecione a UF", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES",
+    "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ",
+    "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO",
+)
 
 DB_PATH = Path(__file__).with_name("bitcoffee.db")
 
@@ -1012,36 +1031,48 @@ elif st.session_state.tela_atual == "TELA300 - LOGIN ADMINISTRADOR":
 elif st.session_state.tela_atual == "TELA101 - LOGIN":
     if st.button("← Menu principal", key="menu_principal_login"):
         navegar_para(TELA_INICIAL)
-    st.title("☕ Bitcoffee")
-    st.subheader("TELA101 - LOGIN")
-    email = st.text_input("E-mail", key="login_email")
-    senha = st.text_input("Senha", type="password", key="login_senha")
 
-    coluna_entrar, coluna_cadastro = st.columns(2)
-    with coluna_entrar:
-        if st.button("ENTRAR", key="entrar_login"):
-            email_normalizado = email.strip().lower()
-            if not email_normalizado or not senha:
-                st.warning("Informe o e-mail e a senha.")
-            elif not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email_normalizado):
-                st.warning("Digite um e-mail válido.")
-            elif email_cadastrado(email_normalizado) and not autenticar_usuario(email_normalizado, senha):
-                st.error("Este e-mail já está cadastrado, mas a senha informada está incorreta.")
-            elif autenticar_usuario(email_normalizado, senha):
-                st.session_state.usuario_logado = email_normalizado
-                st.session_state.perfil_usuario = "cliente"
-                navegar_para(TELA_INICIAL)
-            else:
-                st.error("E-mail não encontrado. Crie uma conta antes de entrar.")
-    with coluna_cadastro:
-        if st.button("CRIAR CONTA", key="criar_conta_login"):
-            navegar_para("TELA102 - CADASTRO")
+    render_page_intro("Entrar na Bitcoffee", "Acesse sua conta para continuar suas compras.")
+    margem_esquerda, formulario_login, margem_direita = st.columns([1, 1.25, 1])
 
-    if st.button("Esqueceu a senha?", key="esqueceu_senha"):
-        navegar_para("TELA103 - RECUPERAÇÃO DE CONTA")
+    with formulario_login:
+        with st.container(border=True):
+            st.caption("TELA101 · LOGIN")
+            email = st.text_input("E-mail", placeholder="voce@exemplo.com", key="login_email")
+            senha = st.text_input("Senha", type="password", placeholder="Digite sua senha", key="login_senha")
 
-    if st.button("Acesso administrativo", key="acesso_administrativo"):
-        navegar_para("TELA300 - LOGIN ADMINISTRADOR")
+            coluna_entrar, coluna_cadastro = st.columns(2, gap="small")
+            with coluna_entrar:
+                entrar = st.button("ENTRAR", key="entrar_login", use_container_width=True)
+            with coluna_cadastro:
+                criar_conta = st.button("CRIAR CONTA", key="criar_conta_login", use_container_width=True)
+
+            if entrar:
+                email_normalizado = email.strip().lower()
+                if not email_normalizado or not senha:
+                    st.warning("Informe o e-mail e a senha.")
+                elif not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email_normalizado):
+                    st.warning("Digite um e-mail válido.")
+                elif email_cadastrado(email_normalizado) and not autenticar_usuario(email_normalizado, senha):
+                    st.error("Este e-mail já está cadastrado, mas a senha informada está incorreta.")
+                elif autenticar_usuario(email_normalizado, senha):
+                    st.session_state.usuario_logado = email_normalizado
+                    st.session_state.perfil_usuario = "cliente"
+                    navegar_para(TELA_INICIAL)
+                else:
+                    st.error("E-mail não encontrado. Crie uma conta antes de entrar.")
+
+            if criar_conta:
+                navegar_para("TELA102 - CADASTRO")
+
+            st.divider()
+            coluna_senha, coluna_admin = st.columns(2, gap="small")
+            with coluna_senha:
+                if st.button("Esqueci a senha", key="esqueceu_senha", use_container_width=True):
+                    navegar_para("TELA103 - RECUPERAÇÃO DE CONTA")
+            with coluna_admin:
+                if st.button("Acesso administrativo", key="acesso_administrativo", use_container_width=True):
+                    navegar_para("TELA300 - LOGIN ADMINISTRADOR")
 
 # ============================================================
 # TELA 102 — CADASTRO
@@ -1049,51 +1080,92 @@ elif st.session_state.tela_atual == "TELA101 - LOGIN":
 elif st.session_state.tela_atual == "TELA102 - CADASTRO":
     if st.button("← Menu principal", key="menu_principal_cadastro"):
         navegar_para(TELA_INICIAL)
-    st.title("☕ Bitcoffee")
-    st.subheader("TELA102 - CADASTRO")
-    nome = st.text_input("Nome", key="cadastro_nome")
-    sobrenome = st.text_input("Sobrenome", key="cadastro_sobrenome")
-    email_cadastro = st.text_input("E-mail", key="cadastro_email")
-    st.text_input("CPF", key="cadastro_cpf")
-    senha_cadastro = st.text_input("Senha (entre 8 e 16 caracteres)", type="password", key="cadastro_senha")
-    confirmar_senha = st.text_input("Confirmar senha", type="password", key="confirmar_senha")
-    st.text_input("CEP", key="cadastro_cep")
-    st.text_input("UF", key="cadastro_uf")
-    st.text_input("Cidade", key="cadastro_cidade")
-    st.text_input("Bairro", key="cadastro_bairro")
-    st.text_input("Rua", key="cadastro_rua")
-    st.text_input("Número", key="cadastro_numero")
-    st.text_input("Complemento", key="cadastro_complemento")
 
-    aceite = st.checkbox("Aceito os termos de uso", key="aceite_termos")
-    if st.button("Ver termos de uso e LGPD", key="ver_termos"):
-        navegar_para("TELA104 - TERMOS DE USO E LGPD")
-    st.text_input("Código de confirmação", key="codigo_confirmacao")
+    render_page_intro("Criar sua conta", "Preencha os dados abaixo para fazer parte da Bitcoffee.")
+    margem_esquerda, formulario_cadastro, margem_direita = st.columns([0.25, 1.5, 0.25])
 
-    if st.button("Cadastrar", key="cadastrar_usuario"):
-        email_normalizado = email_cadastro.strip().lower()
-        erros = []
-        if not nome.strip() or not sobrenome.strip():
-            erros.append("Informe nome e sobrenome.")
-        if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email_normalizado):
-            erros.append("Digite um e-mail válido.")
-        if email_cadastrado(email_normalizado):
-            erros.append("Este e-mail já está em uso.")
-        if not 8 <= len(senha_cadastro) <= 16:
-            erros.append("A senha deve ter entre 8 e 16 caracteres.")
-        if senha_cadastro != confirmar_senha:
-            erros.append("As senhas não coincidem.")
-        if not aceite:
-            erros.append("Você precisa aceitar os termos de uso.")
+    with formulario_cadastro:
+        with st.container(border=True):
+            st.caption("TELA102 · CADASTRO")
+            st.markdown("### Dados pessoais")
 
-        if erros:
-            for erro in erros:
-                st.error(erro)
-        elif cadastrar_usuario(email_normalizado, senha_cadastro):
-            st.success("Cadastro realizado com sucesso! Você já pode fazer login.")
-            navegar_para("TELA101 - LOGIN")
-        else:
-            st.error("Este e-mail já está em uso.")
+            coluna_nome, coluna_sobrenome = st.columns(2, gap="small")
+            with coluna_nome:
+                nome = st.text_input("Nome", key="cadastro_nome")
+            with coluna_sobrenome:
+                sobrenome = st.text_input("Sobrenome", key="cadastro_sobrenome")
+
+            coluna_email, coluna_cpf = st.columns(2, gap="small")
+            with coluna_email:
+                email_cadastro = st.text_input("E-mail", placeholder="voce@exemplo.com", key="cadastro_email")
+            with coluna_cpf:
+                st.text_input("CPF", placeholder="000.000.000-00", key="cadastro_cpf")
+
+            coluna_senha, coluna_confirmacao = st.columns(2, gap="small")
+            with coluna_senha:
+                senha_cadastro = st.text_input(
+                    "Senha (8 a 16 caracteres)", type="password", key="cadastro_senha"
+                )
+            with coluna_confirmacao:
+                confirmar_senha = st.text_input(
+                    "Confirmar senha", type="password", key="confirmar_senha"
+                )
+
+            st.markdown("### Endereço")
+            coluna_cep, coluna_uf = st.columns([1.35, 0.65], gap="small")
+            with coluna_cep:
+                st.text_input("CEP", placeholder="00000-000", key="cadastro_cep")
+            with coluna_uf:
+                uf = st.selectbox("UF", UFS_BRASIL, key="cadastro_uf")
+
+            coluna_cidade, coluna_bairro = st.columns(2, gap="small")
+            with coluna_cidade:
+                st.text_input("Cidade", key="cadastro_cidade")
+            with coluna_bairro:
+                st.text_input("Bairro", key="cadastro_bairro")
+
+            coluna_rua, coluna_numero = st.columns([1.55, 0.45], gap="small")
+            with coluna_rua:
+                st.text_input("Rua", key="cadastro_rua")
+            with coluna_numero:
+                st.text_input("Número", key="cadastro_numero")
+
+            st.text_input("Complemento (opcional)", key="cadastro_complemento")
+
+            coluna_termos, coluna_codigo = st.columns(2, gap="small")
+            with coluna_termos:
+                aceite = st.checkbox("Aceito os termos de uso", key="aceite_termos")
+                if st.button("Ler termos e LGPD", key="ver_termos", use_container_width=True):
+                    navegar_para("TELA104 - TERMOS DE USO E LGPD")
+            with coluna_codigo:
+                st.text_input("Código de confirmação", key="codigo_confirmacao")
+
+            if st.button("CADASTRAR", key="cadastrar_usuario", use_container_width=True):
+                email_normalizado = email_cadastro.strip().lower()
+                erros = []
+                if not nome.strip() or not sobrenome.strip():
+                    erros.append("Informe nome e sobrenome.")
+                if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email_normalizado):
+                    erros.append("Digite um e-mail válido.")
+                if email_cadastrado(email_normalizado):
+                    erros.append("Este e-mail já está em uso.")
+                if not 8 <= len(senha_cadastro) <= 16:
+                    erros.append("A senha deve ter entre 8 e 16 caracteres.")
+                if senha_cadastro != confirmar_senha:
+                    erros.append("As senhas não coincidem.")
+                if uf == "Selecione a UF":
+                    erros.append("Selecione uma unidade federativa.")
+                if not aceite:
+                    erros.append("Você precisa aceitar os termos de uso.")
+
+                if erros:
+                    for erro in erros:
+                        st.error(erro)
+                elif cadastrar_usuario(email_normalizado, senha_cadastro):
+                    st.success("Cadastro realizado com sucesso! Você já pode fazer login.")
+                    navegar_para("TELA101 - LOGIN")
+                else:
+                    st.error("Este e-mail já está em uso.")
 
 # ============================================================
 # TELA 103 — RECUPERAÇÃO DE CONTA
