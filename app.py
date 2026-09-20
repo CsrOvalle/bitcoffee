@@ -20,61 +20,396 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    .stApp, [data-testid="stHeader"] {
-        background-color: #8B2613 !important;
+    :root {
+        --espresso: #26170f;
+        --coffee: #5d3322;
+        --caramel: #c8783c;
+        --terracotta: #a64326;
+        --cream: #f7f1e7;
+        --paper: #fffaf2;
+        --sand: #eadfce;
+        --muted: #746256;
+        --line: #decfbc;
     }
 
-    h1, h2, h3, h4, h5, h6, p, label {
-        color: #FFFFFF !important;
+    html { scroll-behavior: smooth; }
+
+    .stApp {
+        background:
+            radial-gradient(circle at 8% 2%, rgba(200, 120, 60, 0.10), transparent 24rem),
+            linear-gradient(180deg, #fbf7f0 0%, var(--cream) 100%) !important;
+        color: var(--espresso) !important;
     }
 
-    div.stButton > button {
-        color: #000000 !important;
-        background-color: #FFFFFF !important;
-        border: 1px solid #DDDDDD !important;
-        font-weight: bold !important;
-        border-radius: 6px !important;
+    [data-testid="stHeader"] {
+        background: rgba(251, 247, 240, 0.88) !important;
+        backdrop-filter: blur(12px);
+    }
+
+    [data-testid="stToolbar"] { color: var(--espresso) !important; }
+
+    .block-container {
+        max-width: 1180px !important;
+        padding-top: 1.7rem !important;
+        padding-bottom: 4rem !important;
+    }
+
+    h1, h2, h3, h4, h5, h6, p, label,
+    [data-testid="stMarkdownContainer"] {
+        color: var(--espresso) !important;
+    }
+
+    h1, h2, h3 {
+        font-family: Georgia, "Times New Roman", serif !important;
+        letter-spacing: -0.025em !important;
+    }
+
+    h1 { font-size: clamp(2rem, 4vw, 3.6rem) !important; }
+    h2 { font-size: clamp(1.65rem, 3vw, 2.4rem) !important; }
+
+    [data-testid="stCaptionContainer"] p,
+    .stCaptionContainer p {
+        color: var(--muted) !important;
+        line-height: 1.65 !important;
+    }
+
+    hr {
+        border-color: rgba(93, 51, 34, 0.15) !important;
+        margin: 1.25rem 0 !important;
+    }
+
+    div.stButton > button,
+    div.stDownloadButton > button {
+        color: #17120f !important;
+        background-color: #ffffff !important;
+        border: 1px solid var(--line) !important;
+        min-height: 2.65rem !important;
+        padding: 0.55rem 1.15rem !important;
+        font-weight: 700 !important;
+        border-radius: 999px !important;
+        box-shadow: 0 5px 14px rgba(46, 26, 16, 0.07) !important;
+        transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+                    background-color 160ms cubic-bezier(0.23, 1, 0.32, 1),
+                    box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1) !important;
     }
 
     div.stButton > button p,
     div.stButton > button span,
     div.stButton > button div,
+    div.stDownloadButton > button p,
     button[kind] p,
     button[kind] span {
-        color: #000000 !important;
+        color: #17120f !important;
     }
 
-    div.stButton > button:hover {
-        background-color: #D3D3D3 !important;
-        border-color: #FFFFFF !important;
-        color: #000000 !important;
+    div.stButton > button:hover,
+    div.stDownloadButton > button:hover {
+        background-color: #e5ddd2 !important;
+        border-color: #c8b49d !important;
+        color: #17120f !important;
+        transform: translateY(-1px);
+        box-shadow: 0 9px 22px rgba(46, 26, 16, 0.12) !important;
+    }
+
+    div.stButton > button:active { transform: scale(0.98); }
+    div.stButton > button:focus-visible { outline: 3px solid rgba(200, 120, 60, 0.35) !important; }
+
+    div[data-baseweb="input"],
+    div[data-baseweb="textarea"],
+    div[data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        border-color: var(--line) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 14px rgba(46, 26, 16, 0.04) !important;
     }
 
     div[data-baseweb="input"] input,
-    div[data-baseweb="textarea"] textarea {
-        color: #1A1A1A !important;
-        background-color: #FFFFFF !important;
+    div[data-baseweb="textarea"] textarea,
+    div[data-baseweb="select"] > div {
+        color: #1a1512 !important;
+        background-color: transparent !important;
     }
 
     div[data-testid="stTextInput"] input,
     div[data-testid="stTextInput"] div[data-baseweb="input"] {
-        min-height: 2rem !important;
-        height: 2rem !important;
+        min-height: 2.45rem !important;
+        height: 2.45rem !important;
     }
 
     div[data-testid="stTextInput"] input {
-        padding: 0.25rem 0.65rem !important;
-        font-size: 0.9rem !important;
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.92rem !important;
     }
 
     div[data-testid="stTextInput"] label {
-        margin-bottom: 0.15rem !important;
-        font-size: 0.82rem !important;
+        margin-bottom: 0.2rem !important;
+        font-size: 0.84rem !important;
+        font-weight: 650 !important;
     }
 
-    div[data-baseweb="select"] > div {
-        color: #1A1A1A !important;
-        background-color: #FFFFFF !important;
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        background: rgba(255, 250, 242, 0.92) !important;
+        border: 1px solid rgba(93, 51, 34, 0.13) !important;
+        border-radius: 20px !important;
+        box-shadow: 0 14px 38px rgba(60, 34, 20, 0.08) !important;
+        overflow: hidden;
+    }
+
+    [data-testid="stAlert"] {
+        border-radius: 14px !important;
+        border-width: 1px !important;
+    }
+
+    .site-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        min-height: 2.7rem;
+    }
+
+    .brand-mark {
+        width: 2.45rem;
+        height: 2.45rem;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: #fffaf2;
+        background: var(--espresso);
+        font-size: 1.25rem;
+        box-shadow: 0 7px 18px rgba(38, 23, 15, 0.18);
+    }
+
+    .brand-copy strong {
+        display: block;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1.55rem;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        color: var(--espresso);
+    }
+
+    .brand-copy small {
+        color: var(--muted);
+        font-size: 0.67rem;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+    }
+
+    .user-chip {
+        background: #efe5d7;
+        border: 1px solid var(--line);
+        color: var(--coffee);
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        text-align: center;
+        font-size: 0.8rem;
+        margin-bottom: 0.45rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(260px, .7fr);
+        gap: 2rem;
+        align-items: center;
+        min-height: 420px;
+        padding: clamp(2rem, 6vw, 5rem);
+        margin: 1.1rem 0 2.8rem;
+        overflow: hidden;
+        position: relative;
+        border-radius: 30px;
+        background:
+            radial-gradient(circle at 82% 20%, rgba(222, 159, 93, .34), transparent 17rem),
+            linear-gradient(125deg, #21130d 0%, #4d2a1d 55%, #763b24 100%);
+        box-shadow: 0 25px 60px rgba(48, 27, 17, 0.20);
+    }
+
+    .hero::after {
+        content: "";
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        right: -110px;
+        bottom: -175px;
+        border: 1px solid rgba(255,255,255,.16);
+        border-radius: 50%;
+        box-shadow: 0 0 0 42px rgba(255,255,255,.025), 0 0 0 84px rgba(255,255,255,.02);
+    }
+
+    .hero-copy { position: relative; z-index: 2; }
+
+    .hero-kicker {
+        display: inline-block;
+        color: #f2c894;
+        font-size: .78rem;
+        font-weight: 800;
+        letter-spacing: .17em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+    }
+
+    .hero h1 {
+        color: #fffaf2 !important;
+        font-size: clamp(2.8rem, 5.8vw, 5.3rem) !important;
+        line-height: .98 !important;
+        max-width: 760px;
+        margin: 0 0 1.2rem;
+    }
+
+    .hero p {
+        color: #eadfd2 !important;
+        max-width: 620px;
+        font-size: 1.06rem;
+        line-height: 1.7;
+        margin-bottom: 1.7rem;
+    }
+
+    .hero-cta {
+        display: inline-block;
+        background: #fffaf2;
+        color: var(--espresso) !important;
+        text-decoration: none !important;
+        border-radius: 999px;
+        padding: .8rem 1.25rem;
+        font-weight: 800;
+        box-shadow: 0 10px 25px rgba(0,0,0,.18);
+    }
+
+    .hero-visual {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+        min-height: 280px;
+    }
+
+    .hero-seal {
+        width: 250px;
+        aspect-ratio: 1;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        border-radius: 50%;
+        color: #fff7ea;
+        border: 1px solid rgba(255,255,255,.38);
+        background: rgba(255,255,255,.08);
+        box-shadow: inset 0 0 0 14px rgba(255,255,255,.035), 0 24px 55px rgba(0,0,0,.28);
+        transform: rotate(-4deg);
+    }
+
+    .hero-seal .cup { font-size: 4.4rem; line-height: 1; }
+    .hero-seal strong { display: block; font-family: Georgia, serif; font-size: 1.45rem; margin-top: .5rem; }
+    .hero-seal small { display: block; color: #e5c7a5; letter-spacing: .16em; margin-top: .35rem; }
+
+    .trust-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin: -1.5rem auto 3.2rem;
+    }
+
+    .trust-item {
+        background: rgba(255,250,242,.9);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 1rem 1.1rem;
+        box-shadow: 0 10px 30px rgba(56, 31, 18, .06);
+    }
+
+    .trust-item strong { display: block; color: var(--coffee); font-size: .96rem; }
+    .trust-item span { color: var(--muted); font-size: .8rem; }
+
+    .section-heading { margin: 0 0 1.35rem; }
+    .section-heading .eyebrow {
+        color: var(--terracotta);
+        text-transform: uppercase;
+        letter-spacing: .16em;
+        font-size: .72rem;
+        font-weight: 800;
+    }
+    .section-heading h2 { margin: .25rem 0 .4rem; }
+    .section-heading p { color: var(--muted) !important; max-width: 680px; }
+
+    .product-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .4rem;
+        margin: .75rem 0 .15rem;
+    }
+
+    .product-meta span {
+        background: #efe3d4;
+        color: #68432e;
+        border-radius: 999px;
+        padding: .28rem .55rem;
+        font-size: .7rem;
+        font-weight: 750;
+    }
+
+    .product-price {
+        color: var(--terracotta);
+        font-family: Georgia, serif;
+        font-size: 1.35rem;
+        font-weight: 800;
+        margin: .55rem 0;
+    }
+
+    .product-description {
+        color: var(--muted);
+        line-height: 1.55;
+        min-height: 3.1rem;
+        font-size: .88rem;
+    }
+
+    .product-art {
+        width: 100%;
+        overflow: hidden;
+        border-radius: 15px;
+        margin-bottom: .85rem;
+        background: #eadfce;
+    }
+
+    .product-art svg { width: 100%; height: auto; display: block; }
+
+    .page-intro {
+        padding: 1.6rem 1.8rem;
+        margin: .4rem 0 1.4rem;
+        border-left: 5px solid var(--caramel);
+        border-radius: 0 18px 18px 0;
+        background: #fffaf2;
+        box-shadow: 0 10px 30px rgba(56,31,18,.06);
+    }
+    .page-intro h1 { margin: 0 0 .25rem; font-size: 2.2rem !important; }
+    .page-intro p { margin: 0; color: var(--muted) !important; }
+
+    .admin-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin: 1.2rem 0 1.8rem;
+    }
+    .admin-stat {
+        padding: 1.15rem;
+        border-radius: 16px;
+        background: #fffaf2;
+        border: 1px solid var(--line);
+    }
+    .admin-stat strong { display: block; font: 700 1.6rem Georgia, serif; color: var(--coffee); }
+    .admin-stat span { color: var(--muted); font-size: .8rem; }
+
+    @media (max-width: 780px) {
+        .block-container { padding-top: 1rem !important; }
+        .hero { grid-template-columns: 1fr; min-height: auto; padding: 2rem; border-radius: 22px; }
+        .hero-visual { min-height: 190px; }
+        .hero-seal { width: 180px; }
+        .trust-row, .admin-stats { grid-template-columns: 1fr; }
+        .product-description { min-height: auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        * { scroll-behavior: auto !important; transition: none !important; }
     }
     </style>
     """,
@@ -87,18 +422,30 @@ PRODUTOS = [
         "nome": "Bourbon Amarelo 250g",
         "preco": 38.90,
         "desc": "Café 100% Arábica de alta qualidade com notas de chocolate e caramelo.",
+        "origem": "Sul de Minas",
+        "torra": "Média clara",
+        "notas": "Chocolate e caramelo",
+        "cor": "#a94f2c",
     },
     {
         "id": 2,
         "nome": "Chapada Diamantina 250g",
         "preco": 42.50,
         "desc": "Grãos selecionados com acidez equilibrada e aroma marcante.",
+        "origem": "Chapada Diamantina",
+        "torra": "Média",
+        "notas": "Mel e frutas amarelas",
+        "cor": "#c37a3d",
     },
     {
         "id": 3,
         "nome": "Blend Especial 250g",
         "preco": 35.00,
         "desc": "Combinação exclusiva de grãos para um café encorpado.",
+        "origem": "Blend da casa",
+        "torra": "Média escura",
+        "notas": "Cacau e castanhas",
+        "cor": "#71402c",
     },
 ]
 
@@ -225,6 +572,8 @@ if "produto_selecionado" not in st.session_state:
     st.session_state.produto_selecionado = None
 if "usuario_logado" not in st.session_state:
     st.session_state.usuario_logado = None
+if "perfil_usuario" not in st.session_state:
+    st.session_state.perfil_usuario = None
 if "subtotal_compra" not in st.session_state:
     st.session_state.subtotal_compra = 0.0
 if "cupom_aplicado" not in st.session_state:
@@ -244,42 +593,67 @@ def formatar_moeda(valor: float) -> str:
     return f"R$ {valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
 
-def imagem_generica(texto: str = "Bitcoffee", largura: int = 260) -> None:
-    """Exibe uma imagem local simples, sem depender de URL externa."""
+def imagem_generica(texto: str = "Bitcoffee", largura: int = 260, cor: str = "#9f472a") -> None:
+    """Exibe uma ilustração vetorial própria, sem depender de imagens externas."""
     svg = f"""
-    <svg xmlns="http://www.w3.org/2000/svg" width="{largura}" height="170" viewBox="0 0 520 340">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 340" role="img" aria-label="Embalagem ilustrativa {texto}">
       <defs>
-        <linearGradient id="fundo" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0%" stop-color="#b63b19"/>
-          <stop offset="100%" stop-color="#4a180e"/>
+        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="#f2e6d6"/>
+          <stop offset="100%" stop-color="#d9c0a4"/>
         </linearGradient>
+        <linearGradient id="bag" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="{cor}"/>
+          <stop offset="100%" stop-color="#3c2118"/>
+        </linearGradient>
+        <filter id="shadow"><feDropShadow dx="0" dy="16" stdDeviation="12" flood-opacity=".22"/></filter>
       </defs>
-      <rect width="520" height="340" rx="24" fill="url(#fundo)"/>
-      <circle cx="260" cy="150" r="72" fill="none" stroke="#f5d7a5" stroke-width="5" opacity=".8"/>
-      <path d="M215 130h85v45c0 25-18 42-42 42s-43-17-43-42z" fill="none" stroke="#fff8ec" stroke-width="7"/>
-      <path d="M300 142h22c19 0 31 11 31 27s-12 27-31 27h-18" fill="none" stroke="#fff8ec" stroke-width="7"/>
-      <text x="260" y="265" text-anchor="middle" fill="#fff8ec" font-family="Arial" font-size="20" letter-spacing="4">{texto}</text>
+      <rect width="520" height="340" rx="26" fill="url(#bg)"/>
+      <circle cx="82" cy="70" r="46" fill="#ffffff" opacity=".22"/>
+      <circle cx="438" cy="274" r="82" fill="#ffffff" opacity=".16"/>
+      <g filter="url(#shadow)">
+        <path d="M171 63h178l20 218c2 22-13 39-35 39H186c-22 0-37-17-35-39z" fill="url(#bag)"/>
+        <path d="M171 63h178l-15 31H186z" fill="#2c1a13" opacity=".78"/>
+        <rect x="194" y="120" width="132" height="122" rx="10" fill="#fff8ed"/>
+        <circle cx="260" cy="162" r="31" fill="none" stroke="{cor}" stroke-width="4"/>
+        <path d="M239 154h36v21c0 12-8 20-18 20s-18-8-18-20z" fill="none" stroke="{cor}" stroke-width="4"/>
+        <path d="M275 159h10c8 0 13 5 13 12s-5 12-13 12h-8" fill="none" stroke="{cor}" stroke-width="4"/>
+        <text x="260" y="218" text-anchor="middle" fill="#3b2419" font-family="Georgia" font-size="15" font-weight="700">BITCOFFEE</text>
+      </g>
+      <path d="M52 286c20-30 42-30 62 0M407 67c18-27 38-27 56 0" fill="none" stroke="#6d422d" stroke-width="3" stroke-linecap="round" opacity=".22"/>
     </svg>
     """
     encoded = base64.b64encode(svg.encode("utf-8")).decode("ascii")
-    st.image(f"data:image/svg+xml;base64,{encoded}", width=largura)
+    st.markdown(
+        f'<div class="product-art"><img src="data:image/svg+xml;base64,{encoded}" alt="{texto}" style="width:100%;display:block"></div>',
+        unsafe_allow_html=True,
+    )
 
 
 def render_header() -> None:
-    col_logo, col_usuario, col_carrinho = st.columns([6, 2, 2])
+    col_logo, col_espaco, col_usuario, col_carrinho = st.columns([4.7, 1.8, 1.7, 1.8], vertical_alignment="center")
     with col_logo:
-        st.title("☕ Bitcoffee")
+        st.markdown(
+            """
+            <div class="site-brand">
+              <div class="brand-mark">☕</div>
+              <div class="brand-copy"><strong>Bitcoffee</strong><small>Cafés especiais</small></div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with col_espaco:
+        st.markdown("<span></span>", unsafe_allow_html=True)
     with col_usuario:
         if st.session_state.usuario_logado:
-            st.write(f"👤 {st.session_state.usuario_logado}")
-            if st.button("Sair", key="sair_header"):
-                st.session_state.usuario_logado = None
-                navegar_para(TELA_INICIAL)
-        elif st.button("Entrar", key="entrar_header"):
+            st.markdown(f'<div class="user-chip">{st.session_state.usuario_logado}</div>', unsafe_allow_html=True)
+            if st.button("Sair", key="sair_header", use_container_width=True):
+                sair_da_conta()
+        elif st.button("Entrar", key="entrar_header", use_container_width=True):
             navegar_para("TELA101 - LOGIN")
     with col_carrinho:
         quantidade = sum(item["quantidade"] for item in st.session_state.carrinho)
-        if st.button(f"🛒 Carrinho ({quantidade})", key="carrinho_header"):
+        if st.button(f"Carrinho · {quantidade}", key="carrinho_header", use_container_width=True):
             navegar_para("TELA203 - PEDIDO")
     st.divider()
 
@@ -303,54 +677,132 @@ def calcular_subtotal() -> float:
         item["produto"]["preco"] * item["quantidade"]
         for item in st.session_state.carrinho
     )
-    
+
+
+def usuario_e_administrador() -> bool:
+    return st.session_state.get("perfil_usuario") == "administrador"
+
+
+def sair_da_conta() -> None:
+    st.session_state.usuario_logado = None
+    st.session_state.perfil_usuario = None
+    navegar_para(TELA_INICIAL)
+
+
+
+def render_hero() -> None:
+    st.markdown(
+        """
+        <section class="hero">
+          <div class="hero-copy">
+            <span class="hero-kicker">Torra fresca · origem selecionada</span>
+            <h1>Seu café favorito começa na origem.</h1>
+            <p>Grãos especiais escolhidos para transformar a rotina em um momento de pausa, aroma e sabor.</p>
+            <a class="hero-cta" href="#catalogo">Conhecer os cafés</a>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="hero-seal">
+              <div><span class="cup">☕</span><strong>Bitcoffee</strong><small>CAFÉ DE VERDADE</small></div>
+            </div>
+          </div>
+        </section>
+        <div class="trust-row">
+          <div class="trust-item"><strong>100% Arábica</strong><span>Grãos selecionados por qualidade</span></div>
+          <div class="trust-item"><strong>Torra em pequenos lotes</strong><span>Mais frescor em cada pacote</span></div>
+          <div class="trust-item"><strong>Compra segura</strong><span>Protótipo acadêmico transparente</span></div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_page_intro(titulo: str, subtitulo: str) -> None:
+    st.markdown(
+        f'<section class="page-intro"><h1>{titulo}</h1><p>{subtitulo}</p></section>',
+        unsafe_allow_html=True,
+    )
+
 if st.session_state.tela_atual == TELA_INICIAL:
     render_header()
+    render_hero()
+
+    st.markdown('<div id="catalogo"></div>', unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div class="section-heading">
+          <span class="eyebrow">Nossa seleção</span>
+          <h2>Cafés para descobrir com calma</h2>
+          <p>Escolha pelo perfil de torra, pela origem ou pelas notas sensoriais que mais combinam com você.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
     termo = st.text_input(
         "Pesquisar",
-        placeholder="Pesquise por produto...",
+        placeholder="Busque por café, origem ou nota sensorial...",
         label_visibility="collapsed",
         key="busca_produto",
     ).strip().lower()
 
-    st.subheader("Catálogo de Cafés Especiais")
     produtos_filtrados = [
         produto
         for produto in PRODUTOS
-        if termo in produto["nome"].lower() or termo in produto["desc"].lower()
+        if termo in produto["nome"].lower()
+        or termo in produto["desc"].lower()
+        or termo in produto["origem"].lower()
+        or termo in produto["notas"].lower()
     ]
 
     if not produtos_filtrados:
-        st.info("Nenhum produto encontrado para essa busca.")
+        st.info("Nenhum café encontrado. Tente pesquisar por origem, torra ou nota sensorial.")
     else:
-        colunas = st.columns(3)
+        colunas = st.columns(3, gap="large")
         for indice, produto in enumerate(produtos_filtrados):
             with colunas[indice % 3]:
-                imagem_generica("BITCOFFEE", 220)
-                st.write(f"**{produto['nome']}**")
-                st.write(formatar_moeda(produto["preco"]))
-                st.caption(produto["desc"])
-                if st.button("Ver detalhes", key=f"detalhe_{produto['id']}"):
-                    st.session_state.produto_selecionado = produto
-                    navegar_para("TELA206 - DESCRIÇÃO")
-                    
+                with st.container(border=True):
+                    imagem_generica(produto["nome"].replace(" 250g", ""), 260, produto["cor"])
+                    st.markdown(f"### {produto['nome']}")
+                    st.markdown(
+                        f'<div class="product-meta"><span>{produto["origem"]}</span><span>Torra {produto["torra"]}</span></div>',
+                        unsafe_allow_html=True,
+                    )
+                    st.markdown(f'<div class="product-price">{formatar_moeda(produto["preco"])}</div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="product-description">{produto["desc"]}</div>', unsafe_allow_html=True)
+                    st.caption(f"Notas: {produto['notas']}")
+                    if st.button("Ver café", key=f"detalhe_{produto['id']}", use_container_width=True):
+                        st.session_state.produto_selecionado = produto
+                        navegar_para("TELA206 - DESCRIÇÃO")
+
+    st.markdown(
+        """
+        <div style="margin-top:3.5rem;padding:2rem;border-radius:22px;background:#2b1a12;color:#fff8ee;text-align:center">
+          <div style="font-family:Georgia,serif;font-size:1.7rem;font-weight:700;color:#fff8ee">Da origem para a sua xícara.</div>
+          <div style="margin-top:.5rem;color:#d9c9bc">Bitcoffee — uma experiência acadêmica de cafeteria gourmet.</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    
 elif st.session_state.tela_atual == "TELA206 - DESCRIÇÃO":
     if st.button("← Menu principal", key="menu_principal_descricao"):
         navegar_para(TELA_INICIAL)
-    if st.button("⬅️ Voltar", key="voltar_descricao"):
-        navegar_para(TELA_INICIAL)
-
     produto = st.session_state.produto_selecionado or PRODUTOS[0]
-    st.title("☕ Bitcoffee")
+    render_page_intro("Detalhes do café", "Conheça a origem e o perfil sensorial antes de escolher.")
     coluna_imagem, coluna_dados = st.columns([1, 1])
     with coluna_imagem:
-        imagem_generica("BITCOFFEE", 320)
+        imagem_generica(produto["nome"].replace(" 250g", ""), 360, produto.get("cor", "#9f472a"))
     with coluna_dados:
         st.subheader(produto["nome"])
-        st.write("⭐⭐⭐⭐☆  Avalie aqui")
-        st.write("**Descrição:**")
+        st.markdown(
+            f'<div class="product-meta"><span>{produto.get("origem", "Origem selecionada")}</span><span>Torra {produto.get("torra", "Média")}</span></div>',
+            unsafe_allow_html=True,
+        )
+        st.write("★★★★☆  Avaliação demonstrativa")
+        st.write("**Perfil sensorial**")
+        st.write(produto.get("notas", produto["desc"]))
         st.write(produto["desc"])
-        st.write(f"### {formatar_moeda(produto['preco'])}")
+        st.markdown(f'<div class="product-price">{formatar_moeda(produto["preco"])}</div>', unsafe_allow_html=True)
         if st.button("Adicionar ao carrinho", key="adicionar_detalhes"):
             adicionar_ao_carrinho(produto)
             
@@ -465,7 +917,7 @@ elif st.session_state.tela_atual == "TELA202 - PAGAMENTO":
             navegar_para("TELA205 - PIX")
         else:
             navegar_para("TELA207 - CARTÃO")
-
+            
 elif st.session_state.tela_atual == "TELA205 - PIX":
     if st.button("← Menu principal", key="menu_principal_pix"):
         navegar_para(TELA_INICIAL)
@@ -478,7 +930,11 @@ elif st.session_state.tela_atual == "TELA205 - PIX":
         st.toast("Código PIX demonstrativo copiado.")
     if st.button("Cancelar", key="cancelar_pix"):
         navegar_para(TELA_INICIAL)
-        
+
+
+# ============================================================
+# TELA 207 — CARTÃO
+# ============================================================
 elif st.session_state.tela_atual == "TELA207 - CARTÃO":
     if st.button("← Menu principal", key="menu_principal_cartao"):
         navegar_para(TELA_INICIAL)
@@ -499,6 +955,25 @@ elif st.session_state.tela_atual == "TELA207 - CARTÃO":
     with coluna_info:
         st.info("Bandeiras aceitas:\n\n- Visa\n- Mastercard\n- Elo")
         
+elif st.session_state.tela_atual == "TELA300 - LOGIN ADMINISTRADOR":
+    if st.button("← Menu principal", key="menu_principal_login_admin"):
+        navegar_para(TELA_INICIAL)
+    st.title("☕ Bitcoffee")
+    st.subheader("TELA300 - LOGIN DO ADMINISTRADOR")
+    st.info("Acesso restrito à administração da loja.")
+    email_admin = st.text_input("E-mail do administrador", key="email_admin")
+    senha_admin = st.text_input("Senha do administrador", type="password", key="senha_admin")
+
+    if st.button("ENTRAR COMO ADMINISTRADOR", key="entrar_admin"):
+        if email_admin.strip().lower() == "admin@cafe.com" and senha_admin == "admin":
+            st.session_state.usuario_logado = "Administrador da Bitcoffee"
+            st.session_state.perfil_usuario = "administrador"
+            navegar_para("TELA301 - ADMINISTRAÇÃO")
+        else:
+            st.error("E-mail ou senha de administrador incorretos.")
+
+    st.caption("Acesso demonstrativo do protótipo: admin@cafe.com / admin")
+    
 elif st.session_state.tela_atual == "TELA101 - LOGIN":
     if st.button("← Menu principal", key="menu_principal_login"):
         navegar_para(TELA_INICIAL)
@@ -515,13 +990,11 @@ elif st.session_state.tela_atual == "TELA101 - LOGIN":
                 st.warning("Informe o e-mail e a senha.")
             elif not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email_normalizado):
                 st.warning("Digite um e-mail válido.")
-            elif email_normalizado == "admin@cafe.com" and senha == "admin":
-                st.session_state.usuario_logado = "Perfil Admin"
-                navegar_para("TELA301 - ADMINISTRAÇÃO")
             elif email_cadastrado(email_normalizado) and not autenticar_usuario(email_normalizado, senha):
                 st.error("Este e-mail já está cadastrado, mas a senha informada está incorreta.")
             elif autenticar_usuario(email_normalizado, senha):
                 st.session_state.usuario_logado = email_normalizado
+                st.session_state.perfil_usuario = "cliente"
                 navegar_para(TELA_INICIAL)
             else:
                 st.error("E-mail não encontrado. Crie uma conta antes de entrar.")
@@ -532,6 +1005,9 @@ elif st.session_state.tela_atual == "TELA101 - LOGIN":
     if st.button("Esqueceu a senha?", key="esqueceu_senha"):
         navegar_para("TELA103 - RECUPERAÇÃO DE CONTA")
 
+    if st.button("Acesso administrativo", key="acesso_administrativo"):
+        navegar_para("TELA300 - LOGIN ADMINISTRADOR")
+        
 elif st.session_state.tela_atual == "TELA102 - CADASTRO":
     if st.button("← Menu principal", key="menu_principal_cadastro"):
         navegar_para(TELA_INICIAL)
@@ -620,15 +1096,30 @@ elif st.session_state.tela_atual == "TELA104 - TERMOS DE USO E LGPD":
     )
     if st.button("Voltar ao cadastro", key="voltar_cadastro_termos"):
         navegar_para("TELA102 - CADASTRO")
-        
+
 elif st.session_state.tela_atual == "TELA301 - ADMINISTRAÇÃO":
     if st.button("← Menu principal", key="menu_principal_admin"):
         navegar_para(TELA_INICIAL)
-    st.title("☕ Bitcoffee")
-    st.write("Perfil administrador")
-    st.subheader("Painel Administrativo")
+    if not usuario_e_administrador():
+        st.error("Acesso restrito. Entre como administrador para abrir esta área.")
+        if st.button("Ir para login administrativo", key="ir_login_admin_bloqueado"):
+            navegar_para("TELA300 - LOGIN ADMINISTRADOR")
+        st.stop()
+    render_page_intro("Painel administrativo", "Visão geral e atalhos para a gestão da loja.")
+    st.write(f"Perfil conectado: **{st.session_state.usuario_logado}**")
+    st.markdown(
+        """
+        <div class="admin-stats">
+          <div class="admin-stat"><strong>3</strong><span>cafés cadastrados</span></div>
+          <div class="admin-stat"><strong>45</strong><span>unidades em estoque</span></div>
+          <div class="admin-stat"><strong>1</strong><span>cupom demonstrativo ativo</span></div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.subheader("Gestão da loja")
 
-    coluna_1, coluna_2 = st.columns(2)
+    coluna_1, coluna_2 = st.columns(2, gap="large")
     with coluna_1:
         if st.button("Gerenciar estoque", use_container_width=True, key="gerenciar_estoque"):
             navegar_para("TELA302 - ESTOQUE")
@@ -639,14 +1130,18 @@ elif st.session_state.tela_atual == "TELA301 - ADMINISTRAÇÃO":
 
     st.button("Alertas do sistema", use_container_width=True, key="alertas_sistema")
     if st.button("Sair da administração", key="sair_administracao"):
-        st.session_state.usuario_logado = None
-        navegar_para(TELA_INICIAL)
+        sair_da_conta()
 
 elif st.session_state.tela_atual == "TELA302 - ESTOQUE":
     if st.button("← Menu principal", key="menu_principal_estoque"):
         navegar_para(TELA_INICIAL)
+    if not usuario_e_administrador():
+        st.error("Acesso restrito. Entre como administrador para abrir o estoque.")
+        if st.button("Ir para login administrativo", key="ir_login_admin_estoque_bloqueado"):
+            navegar_para("TELA300 - LOGIN ADMINISTRADOR")
+        st.stop()
     st.title("☕ Bitcoffee")
-    st.write("Perfil administrador")
+    st.write(f"Perfil: **{st.session_state.usuario_logado}**")
     st.subheader("Controle de Estoque")
 
     for produto in PRODUTOS:
@@ -674,6 +1169,3 @@ elif st.session_state.tela_atual == "TELA302 - ESTOQUE":
     with coluna_registrar:
         if st.button("Registrar alterações", key="registrar_estoque"):
             st.success("Estoque atualizado com sucesso!")
-
-    if st.button("Voltar ao painel administrativo", key="voltar_admin_estoque"):
-        navegar_para("TELA301 - ADMINISTRAÇÃO")
