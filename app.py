@@ -11,12 +11,8 @@ from pathlib import Path
 
 import streamlit as st
 
-
-# ============================================================
-# CONFIGURAÇÃO E ESTILO
-# ============================================================
 st.set_page_config(
-    page_title="Bitcoffee | PIT-II",
+    page_title="Bitcoffee",
     page_icon="☕",
     layout="wide",
 )
@@ -41,61 +37,60 @@ st.markdown(
     .stApp {
         background:
             radial-gradient(circle at 8% 2%, rgba(200, 120, 60, 0.10), transparent 24rem),
-            linear-gradient(180deg, #fbf7f0 0%, var(--cream) 100%) !important;
-        color: var(--espresso) !important;
+            linear-gradient(180deg, #fbf7f0 0%, var(--cream) 100%);
+        color: var(--espresso)
     }
 
     [data-testid="stHeader"] {
-        background: rgba(251, 247, 240, 0.88) !important;
+        background: rgba(251, 247, 240, 0.88);
         backdrop-filter: blur(12px);
     }
 
-    [data-testid="stToolbar"] { color: var(--espresso) !important; }
+    [data-testid="stToolbar"] { color: var(--espresso); }
 
     .block-container {
-        max-width: 1180px !important;
-        /* A barra nativa do Streamlit é fixa e ocupa a parte superior. */
-        padding-top: 5.5rem !important;
-        padding-bottom: 4rem !important;
+        max-width: 1180px;
+        padding-top: 5.5rem;
+        padding-bottom: 4rem;
     }
 
     h1, h2, h3, h4, h5, h6, p, label,
     [data-testid="stMarkdownContainer"] {
-        color: var(--espresso) !important;
+        color: var(--espresso);
     }
 
     h1, h2, h3 {
-        font-family: Georgia, "Times New Roman", serif !important;
-        letter-spacing: -0.025em !important;
+        font-family: Georgia, "Arial", serif;
+        letter-spacing: -0.025em;
     }
 
-    h1 { font-size: clamp(2rem, 4vw, 3.6rem) !important; }
-    h2 { font-size: clamp(1.65rem, 3vw, 2.4rem) !important; }
+    h1 { font-size: clamp(2rem, 4vw, 3.6rem); }
+    h2 { font-size: clamp(1.65rem, 3vw, 2.4rem); }
 
     [data-testid="stCaptionContainer"] p,
     .stCaptionContainer p {
-        color: var(--muted) !important;
-        line-height: 1.65 !important;
+        color: var(--muted);
+        line-height: 1.65;
     }
 
     hr {
-        border-color: rgba(93, 51, 34, 0.15) !important;
-        margin: 1.25rem 0 !important;
+        border-color: rgba(93, 51, 34, 0.15);
+        margin: 1.25rem 0;
     }
 
     div.stButton > button,
     div.stDownloadButton > button {
-        color: #17120f !important;
-        background-color: #ffffff !important;
-        border: 1px solid var(--line) !important;
-        min-height: 2.65rem !important;
-        padding: 0.55rem 1.15rem !important;
-        font-weight: 700 !important;
-        border-radius: 999px !important;
-        box-shadow: 0 5px 14px rgba(46, 26, 16, 0.07) !important;
+        color: #17120f;
+        background-color: #ffffff;
+        border: 1px solid var(--line;
+        min-height: 2.65rem;
+        padding: 0.55rem 1.15rem;
+        font-weight: 700;
+        border-radius: 999px;
+        box-shadow: 0 5px 14px rgba(46, 26, 16, 0.07);
         transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
                     background-color 160ms cubic-bezier(0.23, 1, 0.32, 1),
-                    box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1) !important;
+                    box-shadow 160ms cubic-bezier(0.23, 1, 0.32, 1);
     }
 
     div.stButton > button p,
@@ -104,78 +99,78 @@ st.markdown(
     div.stDownloadButton > button p,
     button[kind] p,
     button[kind] span {
-        color: #17120f !important;
+        color: #17120f;
     }
 
     div.stButton > button:hover,
     div.stDownloadButton > button:hover {
-        background-color: #e5ddd2 !important;
-        border-color: #c8b49d !important;
-        color: #17120f !important;
+        background-color: #e5ddd2;
+        border-color: #c8b49d;
+        color: #17120f;
         transform: translateY(-1px);
-        box-shadow: 0 9px 22px rgba(46, 26, 16, 0.12) !important;
+        box-shadow: 0 9px 22px rgba(46, 26, 16, 0.12);
     }
 
     div.stButton > button:active { transform: scale(0.98); }
-    div.stButton > button:focus-visible { outline: 3px solid rgba(200, 120, 60, 0.35) !important; }
+    div.stButton > button:focus-visible { outline: 3px solid rgba(200, 120, 60, 0.35); }
 
     div[data-baseweb="input"],
     div[data-baseweb="textarea"],
     div[data-baseweb="select"] > div {
-        background-color: #ead9c5 !important;
-        border: 1px solid #b99a78 !important;
-        border-radius: 12px !important;
-        box-shadow: inset 0 1px 2px rgba(58, 34, 20, 0.08), 0 4px 14px rgba(46, 26, 16, 0.05) !important;
+        background-color: #ead9c5;
+        border: 1px solid #b99a78;
+        border-radius: 12px;
+        box-shadow: inset 0 1px 2px rgba(58, 34, 20, 0.08), 0 4px 14px rgba(46, 26, 16, 0.05);
     }
 
     div[data-baseweb="input"]:focus-within,
     div[data-baseweb="textarea"]:focus-within,
     div[data-baseweb="select"] > div:focus-within {
-        border-color: #8f462d !important;
-        box-shadow: 0 0 0 3px rgba(166, 67, 38, 0.18) !important;
+        border-color: #8f462d;
+        box-shadow: 0 0 0 3px rgba(166, 67, 38, 0.18);
     }
 
     div[data-baseweb="input"] input,
     div[data-baseweb="textarea"] textarea,
     div[data-baseweb="select"] > div {
-        color: #1f160f !important;
-        background-color: transparent !important;
+        color: #1f160f;
+        background-color: transparent;
     }
 
     div[data-baseweb="input"] input::placeholder,
     div[data-baseweb="textarea"] textarea::placeholder {
-        color: #705c4e !important;
-        opacity: 1 !important;
+        color: #705c4e;
+        opacity: 1;
     }
 
     div[data-testid="stTextInput"] input,
     div[data-testid="stTextInput"] div[data-baseweb="input"] {
-        min-height: 2.45rem !important;
-        height: 2.45rem !important;
+        min-height: 2.45rem;
+        height: 2.45rem;
     }
 
     div[data-testid="stTextInput"] input {
-        padding: 0.4rem 0.8rem !important;
-        font-size: 0.92rem !important;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.92rem;
     }
 
     div[data-testid="stTextInput"] label {
-        margin-bottom: 0.2rem !important;
-        font-size: 0.84rem !important;
-        font-weight: 650 !important;
+        margin-bottom: 0.2rem;
+        font-size: 0.84rem;
+        font-weight: 650;
     }
 
     [data-testid="stVerticalBlockBorderWrapper"] {
-        background: rgba(255, 250, 242, 0.92) !important;
-        border: 1px solid rgba(93, 51, 34, 0.13) !important;
-        border-radius: 20px !important;
-        box-shadow: 0 14px 38px rgba(60, 34, 20, 0.08) !important;
+        background: rgba(255, 250, 242, 0.92);
+        border: 1px solid rgba(93, 51, 34, 0.13);
+        border-radius: 20px;
+        box-shadow: 0 14px 38px rgba(60, 34, 20, 0.08);
         overflow: hidden;
     }
 
     [data-testid="stAlert"] {
-        border-radius: 14px !important;
-        border-width: 1px !important;
+        border-radius: 14px;
+        border-width: 1px;
     }
 
     .site-brand {
@@ -199,7 +194,7 @@ st.markdown(
 
     .brand-copy strong {
         display: block;
-        font-family: Georgia, "Times New Roman", serif;
+        font-family: Georgia, "Arial", serif;
         font-size: 1.55rem;
         line-height: 1;
         letter-spacing: -0.03em;
@@ -269,15 +264,15 @@ st.markdown(
     }
 
     .hero h1 {
-        color: #fffaf2 !important;
-        font-size: clamp(2.8rem, 5.8vw, 5.3rem) !important;
+        color: #fffaf2;
+        font-size: clamp(2.8rem, 5.8vw, 5.3rem);
         line-height: .98 !important;
         max-width: 760px;
         margin: 0 0 1.2rem;
     }
 
     .hero p {
-        color: #eadfd2 !important;
+        color: #eadfd2;
         max-width: 620px;
         font-size: 1.06rem;
         line-height: 1.7;
@@ -287,8 +282,8 @@ st.markdown(
     .hero-cta {
         display: inline-block;
         background: #fffaf2;
-        color: var(--espresso) !important;
-        text-decoration: none !important;
+        color: var(--espresso);
+        text-decoration: none;
         border-radius: 999px;
         padding: .8rem 1.25rem;
         font-weight: 800;
@@ -348,7 +343,7 @@ st.markdown(
         font-weight: 800;
     }
     .section-heading h2 { margin: .25rem 0 .4rem; }
-    .section-heading p { color: var(--muted) !important; max-width: 680px; }
+    .section-heading p { color: var(--muted); max-width: 680px; }
 
     .product-meta {
         display: flex;
@@ -399,8 +394,8 @@ st.markdown(
         background: #fffaf2;
         box-shadow: 0 10px 30px rgba(56,31,18,.06);
     }
-    .page-intro h1 { margin: 0 0 .25rem; font-size: 2.2rem !important; }
-    .page-intro p { margin: 0; color: var(--muted) !important; }
+    .page-intro h1 { margin: 0 0 .25rem; font-size: 2.2rem; }
+    .page-intro p { margin: 0; color: var(--muted); }
 
     .admin-stats {
         display: grid;
@@ -418,7 +413,7 @@ st.markdown(
     .admin-stat span { color: var(--muted); font-size: .8rem; }
 
     @media (max-width: 780px) {
-        .block-container { padding-top: 4.75rem !important; }
+        .block-container { padding-top: 4.75rem; }
         .hero { grid-template-columns: 1fr; min-height: auto; padding: 2rem; border-radius: 22px; }
         .hero-visual { min-height: 190px; }
         .hero-seal { width: 180px; }
@@ -427,17 +422,13 @@ st.markdown(
     }
 
     @media (prefers-reduced-motion: reduce) {
-        * { scroll-behavior: auto !important; transition: none !important; }
+        * { scroll-behavior: auto; transition: none; }
     }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-
-# ============================================================
-# DADOS E ESTADO DA APLICAÇÃO
-# ============================================================
 PRODUTOS = [
     {
         "id": 1,
@@ -750,10 +741,6 @@ def render_page_intro(titulo: str, subtitulo: str) -> None:
         unsafe_allow_html=True,
     )
 
-
-# ============================================================
-# TELA 201 — PRINCIPAL
-# ============================================================
 if st.session_state.tela_atual == TELA_INICIAL:
     render_header()
     render_hero()
@@ -816,9 +803,6 @@ if st.session_state.tela_atual == TELA_INICIAL:
         unsafe_allow_html=True,
     )
 
-# ============================================================
-# TELA 206 — DESCRIÇÃO
-# ============================================================
 elif st.session_state.tela_atual == "TELA206 - DESCRIÇÃO":
     if st.button("← Menu principal", key="menu_principal_descricao"):
         navegar_para(TELA_INICIAL)
@@ -840,11 +824,7 @@ elif st.session_state.tela_atual == "TELA206 - DESCRIÇÃO":
         st.markdown(f'<div class="product-price">{formatar_moeda(produto["preco"])}</div>', unsafe_allow_html=True)
         if st.button("Adicionar ao carrinho", key="adicionar_detalhes"):
             adicionar_ao_carrinho(produto)
-
-
-# ============================================================
-# TELA 203 — PEDIDO
-# ============================================================
+            
 elif st.session_state.tela_atual == "TELA203 - PEDIDO":
     if st.button("← Menu principal", key="menu_principal_pedido"):
         navegar_para(TELA_INICIAL)
@@ -885,11 +865,7 @@ elif st.session_state.tela_atual == "TELA203 - PEDIDO":
         if st.button("Finalizar pedido", key="finalizar_pedido"):
             st.session_state.subtotal_compra = subtotal
             navegar_para("TELA202 - PAGAMENTO")
-
-
-# ============================================================
-# TELA 202 — PAGAMENTO
-# ============================================================
+            
 elif st.session_state.tela_atual == "TELA202 - PAGAMENTO":
     if st.button("← Menu principal", key="menu_principal_pagamento"):
         navegar_para(TELA_INICIAL)
@@ -1001,10 +977,6 @@ elif st.session_state.tela_atual == "TELA207 - CARTÃO":
     with coluna_info:
         st.info("Bandeiras aceitas:\n\n- Visa\n- Mastercard\n- Elo")
 
-
-# ============================================================
-# TELA 300 — LOGIN DO ADMINISTRADOR
-# ============================================================
 elif st.session_state.tela_atual == "TELA300 - LOGIN ADMINISTRADOR":
     if st.button("← Menu principal", key="menu_principal_login_admin"):
         navegar_para(TELA_INICIAL)
@@ -1024,10 +996,6 @@ elif st.session_state.tela_atual == "TELA300 - LOGIN ADMINISTRADOR":
 
     st.caption("Acesso demonstrativo do protótipo: admin@cafe.com / admin")
 
-
-# ============================================================
-# TELA 101 — LOGIN
-# ============================================================
 elif st.session_state.tela_atual == "TELA101 - LOGIN":
     if st.button("← Menu principal", key="menu_principal_login"):
         navegar_para(TELA_INICIAL)
@@ -1073,10 +1041,7 @@ elif st.session_state.tela_atual == "TELA101 - LOGIN":
             with coluna_admin:
                 if st.button("Acesso administrativo", key="acesso_administrativo", use_container_width=True):
                     navegar_para("TELA300 - LOGIN ADMINISTRADOR")
-
-# ============================================================
-# TELA 102 — CADASTRO
-# ============================================================
+                    
 elif st.session_state.tela_atual == "TELA102 - CADASTRO":
     if st.button("← Menu principal", key="menu_principal_cadastro"):
         navegar_para(TELA_INICIAL)
@@ -1167,9 +1132,6 @@ elif st.session_state.tela_atual == "TELA102 - CADASTRO":
                 else:
                     st.error("Este e-mail já está em uso.")
 
-# ============================================================
-# TELA 103 — RECUPERAÇÃO DE CONTA
-# ============================================================
 elif st.session_state.tela_atual == "TELA103 - RECUPERAÇÃO DE CONTA":
     if st.button("← Menu principal", key="menu_principal_recuperacao"):
         navegar_para(TELA_INICIAL)
@@ -1196,9 +1158,6 @@ elif st.session_state.tela_atual == "TELA103 - RECUPERAÇÃO DE CONTA":
     if st.button("Voltar para login", key="voltar_login_recuperacao"):
         navegar_para("TELA101 - LOGIN")
 
-# ============================================================
-# TELA 104 — TERMOS DE USO E LGPD
-# ============================================================
 elif st.session_state.tela_atual == "TELA104 - TERMOS DE USO E LGPD":
     if st.button("← Menu principal", key="menu_principal_termos"):
         navegar_para(TELA_INICIAL)
@@ -1213,10 +1172,6 @@ elif st.session_state.tela_atual == "TELA104 - TERMOS DE USO E LGPD":
     if st.button("Voltar ao cadastro", key="voltar_cadastro_termos"):
         navegar_para("TELA102 - CADASTRO")
 
-
-# ============================================================
-# TELA 301 — ADMINISTRAÇÃO
-# ============================================================
 elif st.session_state.tela_atual == "TELA301 - ADMINISTRAÇÃO":
     if st.button("← Menu principal", key="menu_principal_admin"):
         navegar_para(TELA_INICIAL)
@@ -1252,10 +1207,6 @@ elif st.session_state.tela_atual == "TELA301 - ADMINISTRAÇÃO":
     if st.button("Sair da administração", key="sair_administracao"):
         sair_da_conta()
 
-
-# ============================================================
-# TELA 302 — ESTOQUE
-# ============================================================
 elif st.session_state.tela_atual == "TELA302 - ESTOQUE":
     if st.button("← Menu principal", key="menu_principal_estoque"):
         navegar_para(TELA_INICIAL)
